@@ -1,0 +1,129 @@
+﻿<div class="{{cssForm}}">
+  <title-pag title="titleDetailViewUser"></title-pag>
+  <div class="panel-group" id="accordion1">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h5 class="panel-title">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" data-target="#accordion1_1">Información</a>
+        </h5>
+      </div>
+      <div id="accordion1_1" class="panel-collapse collapse in">
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-sm-6 form-horizontal">
+              <fieldtxt-form name="FirstName" ng-model="ItemUser.FirstName" required="true" label="true" view="viewMode"></fieldtxt-form>
+              <fieldcbx-form name="GenderID" ng-model="ItemUserNatural.NameGender" view="viewMode" value="GenderID" text="Name" list="Gender"></fieldcbx-form>
+                <fieldcbx-form name="CivilStatusID" ng-model="ItemUserNatural.NameCivilStatus" required="true" view="viewMode" value="CivilStatusID" text="Name" list="CivilStatus"></fieldcbx-form>
+              <fieldtxt-form name="Email" ng-model="ItemUser.Email" required="true" view="viewMode"></fieldtxt-form>
+              <fieldtxt-form name="Phone" ng-model="ItemUserNatural.Phone" required="true" view="viewMode"></fieldtxt-form>
+              <fieldtxt-form name="CellPhoneOne" ng-model="ItemUserNatural.CellPhoneOne" required="true" view="viewMode"></fieldtxt-form>
+               
+     
+            </div>
+            <div class="col-sm-6 form-horizontal">
+              <fieldtxt-form name="LastName" ng-model="ItemUserNatural.LastName" required="true" label="true" view="viewMode"></fieldtxt-form>
+              <fieldcbx-form name="TypeIdentificationID" ng-model="ItemUser.NameTypeIdentification" label="true" required="true" view="viewMode" value="TypeIdentificationID" text="Name" list="TypeIdentification"></fieldcbx-form>
+              <fieldtxt-form name="Identification" ng-model="ItemUser.Identification" required="true" label="true" view="viewMode"></fieldtxt-form>
+              <fieldtxt-form name="Address" ng-model="ItemUser.Address" required="true" view="viewMode"></fieldtxt-form>
+              <fieldtxt-form name="City" ng-model="ItemUser.NameCity" required="true" view="viewMode"></fieldtxt-form>
+    
+            </div>
+          </div>
+          <hr />
+          <div class="row">
+            <div class="col-sm-6 form-horizontal">
+              <fieldcbx-form name="EPSID" ng-model="ItemUserNatural.NameEPS" view="viewMode" value="EPSID" text="Name" list="EPS"></fieldcbx-form>
+              <fieldcbx-form name="ARLID" ng-model="ItemUserNatural.NameARL" view="viewMode" value="ARLID" text="Name" list="ARL"></fieldcbx-form>
+            </div>
+            <div class="col-sm-6 form-horizontal">
+              <fieldcbx-form name="PensionID" ng-model="ItemUserNatural.NamePension" view="viewMode" value="PensionID" text="Name" list="Pension"></fieldcbx-form>
+            </div>
+          </div>
+          <div class="row">
+            <div ng-if="UserFileXUser.length > 0">
+              <strong>Documentos</strong>
+              <ul class="list-group">
+                <li class="list-group-item" ng-repeat="ItemUserFile in UserFileXUser | filter: {Valid: true }">
+                  <button type="button" class="btn btn-primary btn-sm" ng-click="Descargar(ItemUserFile.UserFileXUserID)" translate="btnDescargar"></button>
+                  <strong>{{ItemUserFile.NameUserFile}}</strong>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h5 class="panel-title">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" data-target="#accordion1_2">Pagos Realizados</a>
+      </h5>
+    </div>
+    <div id="accordion1_2" class="panel-collapse collapse">
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-sm-offset-4 col-sm-4 col-xs-offset-0 col-xs-12">
+            <date-filter ng-model="date" method="filterDate()"></date-filter>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="col-sm-12">
+              <div class="text-left Subrayado">RESUMEN</div>
+            </div>
+            <div class="col-sm-12">
+              <span>Comisiones recibidas este mes </span><span class="badge pull-right">{{ Totales.Total }}</span>
+            </div>
+            <div class="col-sm-12">
+              <span>Seguridad Social pagadas este mes </span><span class="badge pull-right">{{ Totales.TotalPagadasSS }}</span>
+            </div>
+            <div class="col-sm-12">
+              <span>Valor de la seguridad social pagadas </span><span class="badge pull-right">{{ Totales.ValorSeguridadSocial | currency:"$ ":0 }}</span>
+            </div>
+          </div>
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12" ng-hide="DatosSegSocial.length == 0">
+          <div class="table-responsive">
+            <table class="{{cssTable}}">
+              <thead>
+                <tr>
+                  <th>Consecutivo Cargue</th>
+                  <th>Fecha</th>
+                  <th>Valor de la comisión</th>
+                  <th>Seguridad Social</th>
+                  <th>Pagada</th>
+                  <th>Motivo</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-ng-repeat="Item in Datos">
+                  <td>{{ Item.FormatExcelID | numberFixedLen:5 }}</td>
+                  <td>{{ Item.Fecha | date:'yyyy-MM-dd' }}</td>
+                  <td>{{ Item.Comision | currency:"$":0}}</td>
+                  <td class="text-left"><span class="label" style="font-size:12px" ng-class="getCssClass(Item.EstadoSeguridadSocial)">{{ Item.ValorSeguridadSocial | currency:"$":0 }}</span></td>
+                  <td class="text-center"><my-state state="Item.PagadoSS"></my-state></td>
+                  <td>{{ Item.Motivo }}</td>
+                </tr>
+
+                <tr>
+                  <td></td>
+                  <td><b>Total</b></td>
+                  <td><b>{{ Totales.Comision | currency:"$":0 }}</b></td>
+                  <td><b>{{ Totales.ValorSeguridadSocial | currency:"$":0 }}</b></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+

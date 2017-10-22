@@ -1,0 +1,84 @@
+<div class="{{cssForm}}">
+  <title-pag title="titleUser"></title-pag>
+
+  <div class="col-sm-12">
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Tipo de usuario</label>
+      <div class="col-sm-9 onoffswitch">
+        <input id="chkPersonaNatural" name="chkPersonaNatural" type="checkbox" class="onoffswitch-checkbox" ng-model="LegalView" />
+        <label class="onoffswitch-label" for="chkPersonaNatural">
+          <div class="onoffswitch-inner">
+            <div class="onoffswitch-active"><div class="onoffswitch-switch">Jur&iacute;dica</div></div>
+            <div class="onoffswitch-inactive"><div class="onoffswitch-switch">Natural</div></div>
+          </div>
+        </label>
+      </div>
+    </div>
+  </div>
+
+
+  <div ng-if="!LegalView" class="col-sm-12" >
+    <div class="table-responsive" ng-hide="PersonaNatural.length == 0">
+      <table class="{{cssTable}}">
+        <tr>
+
+          <th>Nombre</th>
+          <th>Identificaci&oacute;n</th>
+          <th>Tel&eacute;fono</th>
+          <th>Celular</th>
+          <th>Concesionario</th>
+          <th>Vitrina</th>
+          <th>Aprobado</th>
+          <th>Completo</th>
+          <th></th>
+        </tr>
+        <tr data-ng-repeat="Item in PersonaNatural"  ng-class="Item.Modified? 'RowModified': ''">
+          <td>{{ Item.Name }}</td>
+          <td>{{ Item.Identification }}</td>
+          <td>{{ Item.Phone }}</td>
+          <td>{{ Item.CellPhoneOne }}</td>
+          <td>{{ Item.tmp_NameConcesionario }}</td>
+          <td>{{ Item.NameVitrina }}</td>
+          <td class="text-center"><my-state state="Item.Approved"></my-state></td>
+          <td class="text-center"><my-state state="Item.Complete"></my-state></td>
+          <td class="tdAcciones">
+            <button ng-click="ViewUser(Item)" class="btn btn-primary btn-sm"><i class="fa fa-eye"></i></button>
+            <button ng-click="ViewReport(Item.UserNaturalID)" class="btn btn-success btn-sm"><i class="fa fa-usd"></i></button>
+            <button ng-click="DeleteUser(Item.UserNaturalID)" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <text-sin-datos length="PersonaNatural.length"></text-sin-datos>
+  </div>
+  <hr />
+  <div ng-if="LegalView" class="col-sm-12" >
+    <div class="table-responsive" ng-hide="PersonaJuridica.length == 0" >
+      <table class="{{cssTable}}">
+        <tr>
+
+          <th>Nombre</th>
+          <th>Identificaci&oacute;n</th>
+          <th>Aprobado</th>
+          <th>Completo</th>
+          <th></th>
+        </tr>
+        <tr data-ng-repeat="Item in PersonaJuridica"  ng-class="Item.Modified? 'RowModified': ''">
+          <td>{{ Item.FirstNameUser }}</td>
+          <td>{{ Item.NIT }}</td>
+          <td class="text-center"><my-state state="Item.Approved"></my-state></td>
+          <td class="text-center"><my-state state="Item.Complete"></my-state></td>
+          <td class="tdAcciones">
+            <button ng-click="ViewUser(Item)" class="btn btn-primary btn-sm"><i class="fa fa-eye"></i></button>
+            <button ng-click="ViewReport(Item.UserLegalID)" class="btn btn-success btn-sm"><i class="fa fa-usd"></i></button>
+            <button ng-click="DeleteUser(Item.UserLegalID)" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button>
+            <button ng-click="ViewBill(Item.UserLegalID)" class="btn btn-warning btn-sm"><i class="fa fa-list-alt"></i></button>
+            
+          </td>
+        </tr>
+      </table>
+    </div>
+    <text-sin-datos length="PersonaJuridica.length"></text-sin-datos>
+  </div>
+
+</div>

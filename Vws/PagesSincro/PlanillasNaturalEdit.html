@@ -1,0 +1,117 @@
+﻿<div class="{{cssForm}}" >
+  <title-pag title="Información Planillas Personas Naturales"></title-pag>
+
+  <div class="panel-group" id="accordion1">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h5 class="panel-title">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" data-target="#accordion1_3">Filtros</a>
+        </h5>
+      </div>
+      <div id="accordion1_3" class="panel-collapse collapse in">
+        <div class="panel-body">
+          <div class="row">
+            <div class="form-group">
+              <div class="pull-left col-sm-6">
+                <input type="search" class="form-control" ng-model="Filtros.NombreCompleto" placeholder="Nombre del vendedor" ng-change="FilterList()" />
+              </div>
+              <div class="pull-right col-sm-6">
+                <input type="search" class="form-control" ng-model="Filtros.Cedula" placeholder="Cédula del vendedor" ng-change="FilterList()" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+
+  <div class="col-sm-12">
+    <div class="table-responsive" ng-hide="DatosFilter.length == 0">
+      <table class="{{cssTable}}">
+        <tr>
+          <th>ID</th>
+          <th>Nombre Completo</th>
+          <th>Número Cédula</th>
+          <th>Régimen</th>
+          <th>Comisión por Crédito (En Pesos)</th>
+          <th>Acumulado Pagos en el Mes</th>
+          <th>Negocio con Seguro Auto</th>
+          <th>Comisión por seguro Auto (En Pesos)</th>
+          <th>Valor Total a Pagar (Credito + Seg. Auto)</th>
+          <th>Valor Seguridad Social</th>
+          <th>Pagada (S/N)</th>
+          <th>Motivo no Pago</th>
+          <th>Valor Retención Fuente</th>
+          <th></th>
+                 
+        </tr>
+        <tr data-ng-repeat="Item in DatosFilter">
+          <td>{{Item.ID}}</td>
+          <td>{{Item.NombreCompleto}}</td>
+          <td>{{Item.Cedula}}</td>
+          <td>{{Item.Regimen}}</td>
+          <td>{{Item.Comision}}</td>
+          <td>{{Item.ValorAcumulado }}</td>
+          <td>{{Item.TieneSeguro}}</td>
+          <td>{{Item.ComisionSeguro}}</td>
+          <td>{{Item.Total}}</td>
+          <td>{{Item.ValSeguridadS}}</td>
+          <td>{{Item.Pagada}}</td>
+          <td>{{Item.MNopago}}</td>
+          <td>{{Item.ValorRF}}</td>  
+          <td>
+            <button type="button" data-ng-click="edit(Item);editSelect(Item);" class="btn btn-primary ng-scope" data-toggle="tooltip" data-placement="top" tooltip="" title="Modificar" >
+            <i class="fa fa-pencil-square-o" onclick=""></i></button>
+          
+          </td>
+        </tr>
+      </table>
+      <text-sin-datos length="DatosFilter.length"></text-sin-datos>
+    </div>
+    
+    <!-- Sección modal de edición -->
+  
+
+    <div class="modal fade" id="ModelDetalle" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <modal-header></modal-header>
+          <div class="modal-body">
+            <form class="form-horizontal" role="form" name="frmDetalle" id="frmDetalle">
+                     
+              <div class="form-group">
+                <label class="col-sm-3 control-label" >Cédula</label>
+                
+                <div class="col-sm-9">
+                 <span class="ng-bing form-control" ng-bind="ItemSelect.Cedula"> </span>
+                </div>
+
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label" translate="Nombre"></label>
+                <div class="col-sm-9" ng-hide="viewMode">
+                  <span class="form-control" ng-bind="ItemSelect.Nombre"> </span>
+                  <!--<input type="text" class="form-control" ng-model="ItemSelect.Nombre" readonly="true"  border="false"/>-->
+                  </div>
+                </div>
+
+             
+                <fieldchk-form name="PaidSocialSecurity" ng-model="ItemDatosDlleUser.PaidSocialSecurity" view="viewMode"></fieldchk-form>
+                <fieldtxt-form name="Reason" ng-model="ItemDatosDlleUser.Reason" view="viewMode"></fieldtxt-form>
+                <fieldtxt-form name="StatusPaidVendedor" ng-model="ItemDatosDlleUser.StatusPaidVendedor" view="viewMode"></fieldtxt-form>
+
+
+
+                <!--<fieldchk-form  name="" ng-model="ItemDatosDlleUser." view="viewMode"></fieldchk-form>-->
+</form>
+          </div>
+          <modal-footer name="FormatExcelDlleUser"></modal-footer>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,285 @@
+﻿<div class="{{cssForm}}">
+  <div class="bs-callout bs-callout-info">
+    <h4>{{HelpInfo.Title}}</h4>
+    <p>{{HelpInfo.Text}}</p>
+  </div>
+
+  <fieldfile-form ng-model="Archivo" required="true"></fieldfile-form>
+  <br />
+  <br />
+  <div class="text-center">
+    <button type="button" class="btn btn-success" ng-click="SubirArchivo()" translate="btnCargar"></button>
+  </div>
+
+  <div ng-if="MostrarConsolidado">
+    <br />
+    <hr />
+
+    <ul class="list-group">
+      <li class="list-group-item">
+        <span class="text-danger" ng-if="Totales.ConErrores > 0">El archivo tiene errores, debe corregir los errores para completar la carga.</span>
+        <span class="text-primary" ng-if="Totales.ConErrores == 0">El archivo se cargó correctamente.</span>
+      </li>
+      <li class="list-group-item">
+        <span class="badge">{{Totales.Total}}</span>
+        <span translate="RegistrosCargados"></span> <span class="circleState itmLoader"></span>
+      </li>
+      <li class="list-group-item">
+        <span class="badge">{{Totales.ConErrores}}</span>
+        <span translate="RegistrosNoCargados"></span> <span class="circleState itmNotLoader"></span>
+      </li>
+      <li class="list-group-item">
+        <span class="badge">{{Totales.ConErrores + Totales.Total}}</span>
+        <span translate="TotalRegistros"></span>
+      </li>
+
+    </ul>
+  </div>
+
+
+  <div class="col-sm-12" ng-hide="Datos.length == 0">
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation" class="active itmLoader" style="color: #fff;"><a class="click" data-target="#ComisionesCargadas" aria-controls="ComisionesCargadas" role="tab" data-toggle="tab"><span translate="ComisionesCargadas"></span> <span class="badge">{{ Totales.Total }}</span></a></li>
+      <li role="presentation" class="itmNotLoader" style="color: #fff;"><a class="click" data-target="#ComisionesNoCargadas" aria-controls="ComisionesNoCargadas" role="tab" data-toggle="tab"><span translate="ComisionesNoCargadas"></span> <span class="badge">{{ Totales.ConErrores }}</span></a></li>
+      <button type="button" class="btn btn-success pull-right" ng-disabled="Totales.ConErrores > 0" ng-click="SendDailyLoad()">Enviar Cargue</button>
+       
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane active" id="ComisionesCargadas">
+        <div class="col-sm-12">
+          <button type="button" class="btn btn-success pull-right" ng-csv="Exportar(0)" csv-header="getHeader()" add-bom="true" filename="{{'ComisionesCargadas' | translate}}.csv" field-separator=";"><i class="fa fa-file-excel-o"></i></button>
+        </div>
+
+        <div class="col-sm-12">
+          <div class="table-responsive">
+            <table class="{{cssTable}}">
+              <thead>
+                <tr>
+                  <th>1. FECHA (DD/MM/AÑO)</th>
+                  <th>2. NUMERO DE CONSECUTIVO </th>
+                  <th>3. NUMERO DEL PRESTAMO MAF</th>
+                  <th>4. NOMBRE DEL CONCESIONARIO </th>
+                  <th>5. NUMERO DE IDENTIFICACION TRIBUTARIO </th>
+                  <th>6. AGENCIA </th>
+                  <th>7. CIUDAD DE AGENCIA </th>
+                  <th>8. NIT DISPERSIÓN DE TERCERO </th>
+                  <th>9. VALOR DEL CREDITO</th>
+                  <th>10. VALOR TOTAL DE  LA COMISION DEL CRÉDITO</th>
+                  <th>11. REDUCCIÓN EN TASA</th>
+                  <th>12. PLAN</th>
+                  <th>13. COMISÓN DEL  CONCESIONARIO POR EL CREDITO</th>
+                  <th>14. COMISIÓN DEL VENDEDOR POR EL CRÉDITO </th>
+                  <th>15. COMISION TERCERO POR EL CREDITO</th>
+                  <th>16. INCENTIVO CONCESIONARIO (EN PESOS)</th>
+                  <th>17. INCENTIVO VENDEDOR(EN PESOS)</th>
+                  <th>18. INCENTIVO TERCERO PJ(EN PESOS)</th>
+                  <th>19. VALOR TOTAL  DE LA COMISIÓN + INCENTIVO </th>
+                  <th>20. NOMBRE DEL VENDEDOR</th>
+                  <th>21. APELLIDOS DEL VENDEDOR</th>
+                  <th>22. NÚMERO DE CÉDULA DE CIUDADANIA</th>
+                  <th>23. IMPUESTO EN LAS VENTAS </th>
+                  <th>24. VALOR DEL IMPUESTO EN LAS VENTAS</th>
+                  <th>25. VALOR TOTAL A ABONAR PARA EL PAGO DE FISA pay A LOS ALIADOS SIN GMF</th>
+                  <th>26. VALOR DEL IMPUESTOAL GRAVAMEN MOVIMIENTO FINANCIERO</th>
+                  <th>27. VALOR TOTAL A ABONAR PARA EL PAGO DE FISA pay A LOS ALIADOS CON GMF</th>
+                  <th>28. NOMBRE DEL CLIENTE</th>
+                  <th>29. NOMBRE ASESOR MAF</th>
+                  <th>30. CELULAR ASESOR MAF</th>
+                  <th>31. E-MAIL ASESOR MAF</th>
+                  <th>PORCENTAJE DE COMISÓN DEL CRÉDITO </th>
+                  <th>PORCENTAJE DE COMISÓN AL CONCESIONARIO DEL CRÉDITO </th>
+                  <th>PORCENTAJE DE COMISÓN AL VENDEDOR DEL CRÉDITO </th>
+                  <th>PORCENTAJE DE COMISÓN A TERCERO</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-ng-repeat="Item in Datos | filter: {LoadStatus: 0}" class="itmLoader">
+                 <!-- 1 --> 
+                  <td>{{ Item.Fecha | date:'yyyy-MM-dd' }}</td>
+                  <td>{{ Item.Consecutivo }}</td>
+                  <td>{{ Item.NumeroPrestamo }}</td>
+                  <td>{{ Item.Concesionario }}</td>
+                  <td>{{ Item.IdentificacionTributario }}</td>
+                  <td>{{ Item.Agencia }}</td>
+                  <td>{{ Item.CiudadAgencia }}</td>
+                  <td>{{ Item.NITPlanAutos }}</td>
+                  <td>{{ Item.ValorCredito | currency:"":0 :0   }}</td>
+                  <td>{{ Item.ValorTotalComisionCredito | currency:"":0 :0  }}</td>
+                  <!-- 10 -->
+                  <td>{{ Item.ReduccionTasa}}</td>
+                  <td>{{ Item.Plan}}</td>
+                  <td>{{ Item.ValorComisionCreditoConcesionario | currency:"":0 :0  }}</td>
+                  <td>{{ Item.ValorComisionCreditoVendedor | currency:"":0 :0  }}</td>
+                  <td>{{ Item.ValorComisionCreditoPlanAutos | currency:"":0 :0  }}</td>
+                  <td>{{ Item.ValorIncentivoConcesionario | currency:"":0 :0  }}</td>
+                  <td>{{ Item.ValorIncentivoVendedor | currency:"":0 :0  }}</td>
+                  <td>{{ Item.ValorIncentivoPlanAutos | currency:"":0 :0  }}</td>
+                  <td>{{ Item.ValorComisionCredito | currency:"":0 :0  }}</td>
+                  <td>{{ Item.NombreVendedor }}</td>
+                  <td>{{ Item.ApellidosVendedor }}</td>
+                  <td>{{ Item.CedulaVendedor | number:0 }}</td>
+                  <!-- 20 -->
+                  <td>{{ Item.TieneImpuestoAVentas }}</td>
+                  <td>{{ Item.ValorImpuestoAVentas | currency:"":0 :0  }}</td>
+                  <td>{{ Item.ValorTotalFISApaySinGMF | currency:"":0 :0  }}</td>
+                  <td>{{ Item.ValorImpuestoGMF | currency:"":0 :0  }}</td>
+                  <td>{{ Item.ValorTotalFISApayConGMF | currency:"":0 :0  }}</td>
+                  <td>{{ Item.NombreCliente }}</td>
+                  <td>{{ Item.NombreAsesorMAF }}</td>
+                  <td>{{ Item.CelularAsesorMAF }}</td>
+                  <td>{{ Item.EmailAsesorMaF }}</td>
+                  <!-- 29 -->
+                  <td><b>{{ Item.PorcentajeComisionCredito | number:2   }}</b></td>
+                  <td><b>{{ Item.PorcentajeComisionCreditoConcesionario | number:2 }}</b></td>
+                  <td><b>{{ Item.PorcentajeComisionCreditoVendedor | number:2}}</b></td>
+                  <td><b>{{ Item.PorcentajeComisionCreditoPlanAutos | number:2 }}</b></td>
+                </tr>
+                <tr>
+                  <!-- 1 --> 
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th>TOTAL</th>
+                  <th>{{ Totales.ValorCredito | currency:"":0 :0 }}</th>
+                  <th>{{ Totales.ValorTotalComisionCredito | currency:"":0 :0 }}</th>
+                  <!-- 10 -->  
+                  <th></th>
+                  <th></th>
+                  <th>{{ Totales.ValorComisionCreditoConcesionario | currency:"":0 :0  }}</th>
+                  <th>{{ Totales.ValorComisionCreditoVendedor | currency:"":0 :0  }}</th>
+                  <th>{{ Totales.ValorComisionCreditoPlanAutos | currency:"":0 :0 }}</th>
+                  <th>{{ Totales.ValorIncentivoConcesionario | currency:"":0 :0 }}</th>
+                  <th>{{ Totales.ValorIncentivoVendedor | currency:"":0 :0 }}</th>
+                  <th>{{ Totales.ValorIncentivoPlanAutos | currency:"":0 :0 }}</th>
+                  <th>{{ Totales.ValorComisionCredito | currency:"":0 :0 }}</th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <!-- 20 -->   
+                  <th></th>
+                  <th>{{ Totales.ValorImpuestoAVentas | currency:"":0  }}</th>
+                  <th>{{ Totales.ValorTotalFISApaySinGMF | currency:"":0  }}</th>
+                  <th>{{ Totales.ValorImpuestoGMF | currency:"":0  }}</th>
+                  <th>{{ Totales.ValorTotalFISApayConGMF | currency:"":0  }}</th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <!-- 29 -->   
+                  <th>{{(Totales.ValorComisionCredito / Totales.ValorCredito) * 100 | number:2}}</th>
+                  <th>{{(Totales.ValorComisionCreditoConcesionario / Totales.ValorTotalComisionCredito) * 100 | number:2}}</th>
+                  <th>{{(Totales.ValorComisionCreditoVendedor / Totales.ValorTotalComisionCredito) * 100 | number:2}}</th>
+                  <th>{{(Totales.ValorComisionCreditoPlanAutos / Totales.ValorTotalComisionCredito) * 100 | number:2}}</th>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="ComisionesNoCargadas">
+        <div class="col-sm-12">
+          <button type="button" class="btn btn-success pull-right" ng-csv="Exportar(1)" csv-header="getHeader()" filename="{{'ComisionesNoCargadas' | translate}}.csv" field-separator=";"><i class="fa fa-file-excel-o"></i></button>
+        </div>
+
+        <div class="col-sm-12">
+          <div class="table-responsive">
+            <table class="{{cssTable}}">
+              <thead>
+                <tr style="background-color:gray; color:black">
+                  <th>1. FECHA (DD/MM/AÑO)</th>
+                  <th>2. NUMERO DE CONSECUTIVO </th>
+                  <th>3. NUMERO DEL PRESTAMO MAF</th>
+                  <th>4. NOMBRE DEL CONCESIONARIO </th>
+                  <th>5. NUMERO DE IDENTIFICACION TRIBUTARIO </th>
+                  <th>6. AGENCIA </th>
+                  <th>7. CIUDAD DE AGENCIA </th>
+                  <th>8. NIT DISPERSIÓN DE TERCERO </th>
+                  <th>9. VALOR DEL CREDITO</th>
+                  <th>10. VALOR TOTAL DE  LA COMISION DEL CRÉDITO</th>
+                  <th>11. REDUCCIÓN EN TASA</th>
+                  <th>12. PLAN</th>
+                  <th>13. COMISÓN DEL  CONCESIONARIO POR EL CREDITO</th>
+                  <th>14. COMISIÓN DEL VENDEDOR POR EL CRÉDITO </th>
+                  <th>15. COMISION TERCERO POR EL CREDITO</th>
+                  <th>16. INCENTIVO CONCESIONARIO (EN PESOS)</th>
+                  <th>17. INCENTIVO VENDEDOR(EN PESOS)</th>
+                  <th>18. INCENTIVO TERCERO PJ(EN PESOS)</th>
+                  <th>19. VALOR TOTAL  DE LA COMISIÓN + INCENTIVO </th>
+                  <th>20. NOMBRE DEL VENDEDOR</th>
+                  <th>21. APELLIDOS DEL VENDEDOR</th>
+                  <th>22. NÚMERO DE CÉDULA DE CIUDADANIA</th>
+                  <th>23. IMPUESTO EN LAS VENTAS </th>
+                  <th>24. VALOR DEL IMPUESTO EN LAS VENTAS</th>
+                  <th>25. VALOR TOTAL A ABONAR PARA EL PAGO DE FISA pay A LOS ALIADOS SIN GMF</th>
+                  <th>26. VALOR DEL IMPUESTOAL GRAVAMEN MOVIMIENTO FINANCIERO</th>
+                  <th>27. VALOR TOTAL A ABONAR PARA EL PAGO DE FISA pay A LOS ALIADOS CON GMF</th>
+                  <th>28. NOMBRE DEL CLIENTE</th>
+                  <th>29. NOMBRE ASESOR MAF</th>
+                  <th>30. CELULAR ASESOR MAF</th>
+                  <th>31. E-MAIL ASESOR MAF</th>
+                  <th>PORCENTAJE DE COMISÓN DEL CRÉDITO </th>
+                  <th>PORCENTAJE DE COMISÓN AL CONCESIONARIO DEL CRÉDITO </th>
+                  <th>PORCENTAJE DE COMISÓN AL VENDEDOR DEL CRÉDITO </th>
+                  <th>PORCENTAJE DE COMISÓN A TERCERO</th>
+                  <th>Errores</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-ng-repeat="Item in Datos | filter: {LoadStatus: 1}" class="itmNotLoader">
+                  <!-- 1 -->
+                  <td>{{ Item.Fecha}}</td>
+                  <td>{{ Item.Consecutivo }}</td>
+                  <td>{{ Item.NumeroPrestamo }}</td>
+                  <td>{{ Item.Concesionario }}</td>
+                  <td>{{ Item.IdentificacionTributario }}</td>
+                  <td>{{ Item.Agencia }}</td>
+                  <td>{{ Item.CiudadAgencia }}</td>
+                  <td>{{ Item.NITPlanAutos }}</td>
+                  <td>{{ Item.ValorCredito}}</td>
+                  <td>{{ Item.ValorTotalComisionCredito}}</td>
+                  <!-- 10 -->
+                  <td>{{ Item.ReduccionTasa}}</td>
+                  <td>{{ Item.Plan}}</td>
+                  <td>{{ Item.ValorComisionCreditoConcesionario }}</td>
+                  <td>{{ Item.ValorComisionCreditoVendedor }}</td>
+                  <td>{{ Item.ValorComisionCreditoPlanAutos}}</td>
+                  <td>{{ Item.ValorIncentivoConcesionario }}</td>
+                  <td>{{ Item.ValorIncentivoVendedor }}</td>
+                  <td>{{ Item.ValorIncentivoPlanAutos }}</td>
+                  <td>{{ Item.ValorComisionCredito}}</td>
+                  <td>{{ Item.NombreVendedor }}</td>
+                  <td>{{ Item.ApellidosVendedor }}</td>
+                  <td>{{ Item.CedulaVendedor | number:0 }}</td>
+                  <!-- 20 -->
+                  <td>{{ Item.TieneImpuestoAVentas }}</td>
+                  <td>{{ Item.ValorImpuestoAVentas }}</td>
+                  <td>{{ Item.ValorTotalFISApaySinGMF }}</td>
+                  <td>{{ Item.ValorImpuestoGMF }}</td>
+                  <td>{{ Item.ValorTotalFISApayConGMF }}</td>
+                  <td>{{ Item.NombreCliente }}</td>
+                  <td>{{ Item.NombreAsesorMAF }}</td>
+                  <td>{{ Item.CelularAsesorMAF }}</td>
+                  <td>{{ Item.EmailAsesorMaF }}</td>
+                  <!-- 29 -->
+                  <td><b>{{ Item.PorcentajeComisionCredito | number:2   }}</b></td>
+                  <td><b>{{ Item.PorcentajeComisionCreditoConcesionario | number:2 }}</b></td>
+                  <td><b>{{ Item.PorcentajeComisionCreditoVendedor | number:2}}</b></td>
+                  <td><b>{{ Item.PorcentajeComisionCreditoPlanAutos | number:2 }}</b></td>
+                  <td>{{ Item.Errores }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,166 @@
+﻿<div class="{{cssForm}}">
+  <div class="bs-callout bs-callout-info">
+    <h4>{{HelpInfo.Title}}</h4>
+    <p>{{HelpInfo.Text}}</p>
+  </div>
+
+  <div class="input-group">
+    <input id="uploadFile" type="text" class="form-control txtUpload" placeholder="{{'phlFileUpload' | translate}}" disabled="disabled" />
+    <div class="fileUpload btn btn-primary input-group-btn">
+      <span translate="fileUpload"></span>
+      <input type="file" file-model="Archivo" class="upload" onchange="return ValExtPermitidas(this);" required />
+    </div>
+  </div>
+  <br />
+  <br />
+  <div class="text-center">
+    <button type="button" class="btn btn-success" ng-click="SubirArchivo()" translate="btnCargar"></button>
+  </div>
+
+
+  <div ng-if="MostrarConsolidado">
+    <br />
+    <hr />
+
+    <ul class="list-group">
+      <li class="list-group-item">
+        <span class="text-danger" ng-if="Totales.ConErrores > 0">El archivo tiene errores, debe corregir los errores para completar la carga.</span>
+        <span class="text-primary" ng-if="Totales.ConErrores == 0">El archivo se cargó correctamente.</span>
+      </li>
+      <li class="list-group-item">
+        <span class="badge">{{Totales.Total}}</span>
+        <span translate="RegistrosCargados"></span> <span class="circleState itmLoader"></span>
+      </li>
+      <li class="list-group-item">
+        <span class="badge">{{Totales.ConErrores}}</span>
+        <span translate="RegistrosNoCargados"></span> <span class="circleState itmNotLoader"></span>
+      </li>
+      <li class="list-group-item">
+        <span class="badge">{{Totales.ConErrores + Totales.Total}}</span>
+        <span translate="TotalRegistros"></span>
+      </li>
+
+    </ul>
+  </div>
+
+
+  <div class="col-sm-12" ng-hide="Datos.length == 0">
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation" class="active itmLoader" style="color: #fff;"><a class="click" data-target="#ComisionesCargadas" aria-controls="ComisionesCargadas" role="tab" data-toggle="tab"><span>Procesados</span> <span class="badge">{{ Totales.Total }}</span></a></li>
+      <li role="presentation" class="itmNotLoader" style="color: #fff;"><a class="click" data-target="#ComisionesNoCargadas" aria-controls="ComisionesNoCargadas" role="tab" data-toggle="tab"><span>No procesados</span> <span class="badge">{{ Totales.ConErrores }}</span></a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane active" id="ComisionesCargadas">
+        <div class="col-sm-12">
+          <div class="table-responsive">
+            <table class="{{cssTable}}">
+              <thead>
+                <tr>
+                  <th>1. ID</th>
+                  <th>2. Nombre del Vendedor</th>
+                  <th>3. Apellidos del Vendedor</th>
+                  <th>4. Número de Cédula de Ciudadania</th>
+                  <th>5. Regimen</th>
+                  <th>6. Comisión del Vendedor por el Crédito (En Pesos)</th>
+                  <th>7. Acumulado de pagos en el mes</th>
+                  <th>8. Negocio con Seguro Auto (Marque con una X)</th>
+                  <th>9. Comisión del Vendedor por seguro Auto (En Pesos)</th>
+                  <th>10. Valor Total a Pagar (Credito + Seg. Auto)</th>
+                  <th>11. Valor de Seguridad Social</th>
+                  <th>12. Pagada (S/N)</th>
+                  <th>13. Motivo de no pago</th>
+                  <th>14. ReteFuente</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-ng-repeat="Item in Datos | filter: {LoadStatus: 0}" class="itmLoader">
+                  <td>{{ Item.FormatExcelDetalleUserID }}</td>
+                  <td>{{ Item.NombreVendedor }}</td>
+                  <td>{{ Item.ApellidosVendedor }}</td>
+                  <td>{{ Item.CedulaVendedor | number:0 }}</td>
+                  <td>{{ Item.Regimen }}</td>
+                  <td>{{ Item.ValorComisionCreditoVendedor | currency:"$ ":0 }}</td>
+                  <td>{{ Item.ValorAcumulado | currency:"$ ":0 }}</td>
+                  <td>{{ Item.NegocioConSeguroAuto }}</td>
+                  <td>{{ Item.ValorComisionSeguroAutoVendedor | currency:"$ ":0}}</td>
+                  <td>{{ Item.ValorTotalAPagar | currency:"$ ":0 }}</td>
+                  <td>{{ Item.ValorSeguridadSocial | currency:"$ ":0 }}</td>
+                  <td>{{ Item.Pagada }}</td>
+                  <td>{{ Item.MotivoNoPago }}</td>
+                  <td>{{ Item.ReteFuente | currency:"$ ":0 }}</td>
+                </tr>
+                <tr>
+                  <th></th>
+                  <th>TOTAL</th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th>{{ Totales.ValorComisionCreditoVendedor | currency:"$ ":0 :0 }}</th>
+                  <th></th>
+                  <th></th>
+                  <th>{{ Totales.ValorComisionSeguroAutoVendedor | currency:"$ ":0 :0 }}</th>
+                  <th>{{ Totales.ValorTotalAPagar | currency:"$ ":0  }}</th>
+                  <th>{{ Totales.ValorSeguridadSocial | currency:"$ ":0  }}</th>
+                  <th></th>
+                  <th></th>
+                  <th>{{ Totales.ReteFuente| currency:"$ ":0  }}</th>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="ComisionesNoCargadas">
+
+        <div class="col-sm-12">
+          <div class="table-responsive">
+            <table class="{{cssTable}}">
+              <thead>
+                <tr style="background-color:gray; color:black">
+                  <th>1. ID</th>
+                  <th>2. Nombre del Vendedor</th>
+                  <th>3. Apellidos del Vendedor</th>
+                  <th>4. Número de Cédula de Ciudadania</th>
+                  <th>5. Regimen</th>
+                  <th>6. Comisión del Vendedor por el Crédito (En Pesos)</th>
+                  <th>7. Acumulado de pagos en el mes</th>
+                  <th>8. Negocio con Seguro Auto (Marque con una X)</th>
+                  <th>9. Comisión del Vendedor por seguro Auto (En Pesos)</th>
+                  <th>10. Valor Total a Pagar (Credito + Seg. Auto)</th>
+                  <th>11. Valor de Seguridad Social</th>
+                  <th>12. Pagada (S/N)</th>
+                  <th>13. Motivo de no pago</th>
+                  <th>14. ReteFuente</th>
+                  <th>Errores</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-ng-repeat="Item in Datos | filter: {LoadStatus: 1}" class="itmNotLoader">
+                  <td>{{ Item.FormatExcelDetalleUserID }}</td>
+                  <td>{{ Item.NombreVendedor }}</td>
+                  <td>{{ Item.ApellidosVendedor }}</td>
+                  <td>{{ Item.CedulaVendedor }}</td>
+                  <td>{{ Item.Regimen }}</td>
+                  <td>{{ Item.ValorComisionCreditoVendedor}}</td>
+                  <td>{{ Item.ValorAcumulado}}</td>
+                  <td>{{ Item.NegocioConSeguroAuto }}</td>
+                  <td>{{ Item.ValorComisionSeguroAutoVendedor }}</td>
+                  <td>{{ Item.ValorTotalAPagar  }}</td>
+                  <td>{{ Item.ValorSeguridadSocial }}</td>
+                  <td>{{ Item.Pagada }}</td>
+                  <td>{{ Item.MotivoNoPago }}</td>
+                  <td>{{ Item.ReteFuente }}</td>
+                  <td>{{ Item.Errores }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

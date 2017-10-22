@@ -1,0 +1,59 @@
+﻿<div class="{{cssForm}}">
+  <title-pag title="titleUser"></title-pag>
+
+  <div class="panel-group" id="accordion1">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h5 class="panel-title">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" data-target="#accordion1_3">Filtros</a>
+        </h5>
+      </div>
+      <div id="accordion1_3" class="panel-collapse collapse in">
+        <div class="panel-body">
+          <div class="row">
+            <div class="form-group">
+              <div class="pull-left col-sm-6">
+                <input type="search" class="form-control" ng-model="Filtros.Name" placeholder="Nombre del vendedor" ng-change="FilterList()" />
+              </div>
+              <div class="pull-right col-sm-6">
+                <input type="search" class="form-control" ng-model="Filtros.Identification" placeholder="Cédula del vendedor" ng-change="FilterList()" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+
+  <div class="col-sm-12">
+    <div class="table-responsive" ng-hide="DatosFilter.length == 0">
+      <table class="{{cssTable}}">
+        <tr>
+
+          <th>Nombre</th>
+          <th>Identificaci&oacute;n</th>
+          <th>Tel&eacute;fono</th>
+          <th>Celular</th>
+          <th>Concesionario</th>
+          <th>Vitrina</th>
+          <th></th>
+        </tr>
+        <tr data-ng-repeat="Item in DatosFilter">
+          <td>{{ Item.Name }}</td>
+          <td>{{ Item.Identification }}</td>
+          <td>{{ Item.Phone }}</td>
+          <td>{{ Item.CellPhoneOne }}</td>
+          <td>{{ Item.tmp_NameConcesionario }}</td>
+          <td>{{ Item.NameVitrina }}</td>
+          <td class="tdAcciones">
+            <button ng-click="ViewUser(Item)" class="btn btn-primary btn-sm"><i class="fa fa-eye"></i></button>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <text-sin-datos length="DatosFilter.length"></text-sin-datos>
+  </div>
+</div>

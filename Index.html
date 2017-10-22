@@ -1,0 +1,107 @@
+﻿<!DOCTYPE HTML>
+<html lang="{{ lang }}" ng-app="App-FISAPAY">
+<head>
+  <title translate="App"></title>
+  <meta charset="utf-8">
+
+  <link rel="shortcut icon" href="favicon.ico" />
+  <link href="Css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+  <link ng-href="Css/themes/{{ theme }}.min.css" rel="stylesheet" />
+
+  <link href="Css/font-awesome/font-awesome.min.css" rel="stylesheet" />
+  <link href="Css/flags/flags.min.css" rel="stylesheet" />
+  <link href="Css/animate.css" rel="stylesheet" />
+  <link href="Css/noty.css" rel="stylesheet" />
+  <link href="Css/loading-bar.min.css" rel="stylesheet" />
+  <link href="Css/summernote/summernote.css" rel="stylesheet" />
+  <link href="Css/ngPrint.min.css" rel="stylesheet" />
+  <link href="Css/select2.min.css" rel="stylesheet" />
+
+  <link href="Css/site.css" rel="stylesheet" />
+
+ 
+</head>
+<body>
+  <div loading-msg></div>
+
+  <div class="wrapper">
+    <div ng-if="IsAuthenticated" ng-controller="indexController" ng-include="'Vws/Template/Menu.html'">
+    </div>
+
+    <div class="container-fluid" ng-view></div>
+
+   
+  </div>
+
+  <!--JQuery-->
+  <script src="Js/jsJQuery/jquery.min.js" type="text/javascript"></script>
+  <script src="Js/jsJQuery/functions/InitFunctions.js" type="text/javascript"></script>
+
+  <script src="Js/jsJQuery/Components/bootstrap.min.js" type="text/javascript"></script>
+  <script src="Js/jsJQuery/Components/bootbox.min.js" type="text/javascript"></script>
+  <script src="Js/jsJQuery/Components/noty.min.js" type="text/javascript"></script>
+  <script src="Js/jsJQuery/Components/summernote.min.js" type="text/javascript"></script>
+  <script src="Js/jsJQuery/Components/moment-with-locales.min.js" type="text/javascript"></script>
+  <script src="Js/jsJQuery/Components/select2.min.js" type="text/javascript"></script>
+
+
+
+  <!--Controllers Angular Js-->
+  <!--Angular Js-->
+  <script src="Js/jsAngular/angular.min.js" type="text/javascript"></script>
+
+
+  <script src="Js/jsAngular/Components/angular-loaderMsj.js" type="text/javascript"></script>
+  <script src="Js/jsAngular/Components/loading-bar.min.js" type="text/javascript"></script>
+
+  <script src="Js/jsAngular/Components/angular-animate.min.js" type="text/javascript"></script>
+  <script src="Js/jsAngular/Components/angular-cookies.min.js" type="text/javascript"></script>
+  <script src="Js/jsAngular/Components/angular-route.min.js" type="text/javascript"></script>
+  <script src="Js/jsAngular/Components/angular-sanitize.min.js" type="text/javascript"></script>
+  <script src="Js/jsAngular/Components/angular-touch.min.js" type="text/javascript"></script>
+  <script src="Js/jsAngular/Components/angular-local-storage.min.js" type="text/javascript"></script>
+
+  <script src="Js/jsAngular/Components/angular-translate.min.js" type="text/javascript"></script>
+  <script src="Js/jsAngular/Components/angular-translate-storage-local.min.js" type="text/javascript"></script>
+  <script src="Js/jsAngular/Components/angular-translate-storage-cookie.min.js" type="text/javascript"></script>
+  <script src="Js/jsAngular/Components/angular-translate-loader-static-files.min.js" type="text/javascript"></script>
+  <script src="Js/jsAngular/Components/angular-translate-handler-log.min.js" type="text/javascript"></script>
+  <script src="Js/jsAngular/Components/angular-summernote.min.js" type="text/javascript"></script>
+
+  <script src="Js/jsAngular/Components/ng-csv.min.js" type="text/javascript"></script>
+  <script src="Js/jsAngular/Components/ngPrint.min.js" type="text/javascript"></script>
+  <script src="Js/jsAngular/Components/select2.js" type="text/javascript"></script>
+
+  <!--App Angular Js-->
+
+  <script src="Js/jsAngular/App/app.js"></script>
+  <script src="Js/jsAngular/App/appConfig.js"></script>
+  <script src="Js/jsAngular/App/appConstant.js"></script>
+  <script src="Js/jsAngular/App/appDirective.js"></script>
+  <script src="Js/jsAngular/App/appFactory.js"></script>
+  <script src="Js/jsAngular/App/appFilter.js"></script>
+
+  <script src="Js/jsAngular/App/oAuth/authInterceptorService.js"></script>
+  <script src="Js/jsAngular/App/oAuth/authService.js"></script>
+
+  <!--Controllers Angular Js-->
+
+  <script src="Js/jsAngular/App/Controller/accountController.js"></script>
+  <script src="Js/jsAngular/App/Controller/FormatExcel.js"></script>
+  <script src="Js/jsAngular/App/Controller/homeController.js"></script>
+  <script src="Js/jsAngular/App/Controller/indexController.js"></script>
+  <script src="Js/jsAngular/App/Controller/loginController.js"></script>
+  <script src="Js/jsAngular/App/Controller/mainController.js"></script>
+  <script src="Js/jsAngular/App/Controller/manage.js"></script>
+  <script src="Js/jsAngular/App/Controller/ReportController.js"></script>
+  <script src="Js/jsAngular/App/Controller/signinController.js"></script>
+  <script src="Js/jsAngular/App/Controller/sincroController.js"></script>
+  <script src="Js/jsAngular/App/Controller/UserAdmin.js"></script>
+  <script src="Js/jsAngular/App/Controller/AppGenericJs.js"></script>
+  <script src="Js/jsAngular/App/Controller/ValidarCertificadoController.js"></script>
+  <script src="Js/jsAngular/App/Controller/EquivalentDocumentController.js"></script>
+  <script src="Js/jsAngular/App/Controller/AgencyBillController.js"></script>
+
+ 
+</body>
+</html>

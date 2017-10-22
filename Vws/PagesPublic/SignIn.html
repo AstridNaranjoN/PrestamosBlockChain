@@ -1,0 +1,423 @@
+﻿<div class="main main-login main-center">
+  <b><i class="fa fa-user fa" aria-hidden="true"></i> {{msgTexto | html}}</b>
+  <div class="pull-right">
+    Hola,
+    <b ng-if="Url.TypeUser == 2">{{ItemUserLegal.FirstNameUser}}</b>
+    <b ng-if="Url.TypeUser == 1">{{ItemUserNatural.Name}}</b>
+   
+
+
+    <a class="cerrarSesion" ng-click="CerrarSesion()"><i class="fa fa-power-off" aria-hidden="true"></i></a>
+  </div>
+
+  <div class="board" ng-init="TabUser = 0">
+    <div class="board-inner">
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs" role="tablist">
+        <div class="liner"></div>
+        <li role="presentation" ng-class="TabUser == 0 ? 'active' : ''">
+          <a ng-click="CompleteInfo(0)" class="click" data-toggle="tooltip" data-placement="top" tooltip title="{{'tooltipInicio' | translate}}">
+            <span class="round-tabs four">
+              <i class="fa fa-home fa-2x"></i>
+            </span>
+          </a>
+        </li>
+        <li role="presentation" ng-class="TabUser == 4 ? 'active' : ''">
+          <a data-toggle="tooltip" data-placement="top" tooltip title="{{'tooltipUser' | translate}}">
+            <span class="round-tabs five">
+              <i class="fa fa-address-card fa-2x"></i>
+            </span>
+          </a>
+        </li>
+        <li role="presentation" ng-class="TabUser == 1 ? 'active' : ''">
+          <a data-toggle="tooltip" data-placement="top" tooltip title="{{'tooltipInfo' | translate}}">
+            <span class="round-tabs two">
+              <i class="fa fa-user fa-2x"></i>
+            </span>
+          </a>
+        </li>
+        <li role="presentation" ng-class="TabUser == 2 ? 'active' : ''">
+          <a data-toggle="tooltip" data-placement="top" tooltip title="{{'tooltipArchivos' | translate}}">
+            <span class="round-tabs three">
+              <i class="fa fa-upload fa-2x"></i>
+            </span>
+          </a>
+        </li>
+        <li ng-if="Url.TypeUser == 1" role="presentation" ng-class="TabUser == 3 ? 'active' : ''">
+          <a data-toggle="tooltip" data-placement="top" tooltip title="{{'tooltipContrato' | translate}}">
+            <span class="round-tabs three">
+              <i class="fa fa-book fa-2x"></i>
+            </span>
+          </a>
+        </li>
+        <li role="presentation" ng-class="TabUser == 5 ? 'active' : ''">
+          <a data-toggle="tooltip" data-placement="top" tooltip title="{{'tooltipFinalizar' | translate}}">
+            <span class="round-tabs one">
+              <i class="fa fa-check fa-2x"></i>
+            </span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane fade" id="home" ng-class="TabUser == 0 ? 'in active' : ''">
+        <my-help-text helptext="HelpHome" align="center"></my-help-text>
+
+        <div ng-if="UserFileXUser.length > 0">
+          <ul class="list-group">
+            <li class="list-group-item" ng-repeat="Item in UserFileXUser | filter: {Valid: false, Message: '!'}:true">
+              <strong>{{Item.NameUserFile}}</strong>
+              <a ng-click="viewMessage(Item.Message)" class="click" ng-if="!Item.Valid"><i class="fa fa-eye"></i></a>
+              <my-state state="Item.Valid" class="pull-right"></my-state>
+            </li>
+          </ul>
+        </div>
+
+        <div class="text-center">
+          <button type="button" class="btn btn-success btn-outline-rounded green" ng-click="CompleteInfo(4);" translate="btnIniciarEdicion"></button>
+        </div>
+      </div>
+
+      <div role="tabpanel" class="tab-pane fade" id="User" ng-class="TabUser == 4 ? 'in active' : ''">
+        <my-help-text helptext="HelpUser"></my-help-text>
+
+        <form class="form-horizontal" role="form" name="frmUser" id="frmUser">
+          <div ng-if="Url.TypeUser == 1">
+            <fieldtxt-form name="Address" maxlength="100" ng-model="ItemUser.Address" required="true" view="viewMode"></fieldtxt-form>
+            <fieldcbx-form name="CityID" ng-model="ItemUser.CityID" required="true" view="viewMode" value="CityID" text="NameCity" list="City"></fieldcbx-form>
+            <fieldcbx-form name="BankID" ng-model="ItemUser.BankID" required="true" view="viewMode" value="BankID" text="Name" list="Bank"></fieldcbx-form>
+            <fieldcbx-form name="TypeAccountBankID" ng-model="ItemUser.TypeAccountBankID" required="true" view="viewMode" value="TypeAccountBankID" text="Name" list="TypeAccountBank"></fieldcbx-form>
+            <fieldtxt-form name="AccountNumber" maxlength="50" ng-model="ItemUser.AccountNumber" required="true" view="viewMode"></fieldtxt-form>
+            <fieldcbx-form name="CityAccountID" ng-model="ItemUser.CityAccountID" required="true" view="viewMode" value="CityID" text="NameCity" list="City"></fieldcbx-form>
+          </div>
+
+          <div ng-if="Url.TypeUser == 2">
+            <fieldtxt-form name="Name" maxlength="100" ng-model="ItemUserAgency.Name" required="true" view="true"></fieldtxt-form>
+            <fieldtxt-form name="Address" maxlength="100" ng-model="ItemUserAgency.Address" required="true" view="viewMode"></fieldtxt-form>
+            <fieldcbx-form name="CityID" ng-model="ItemUserAgency.CityID" required="true" view="viewMode" value="CityID" text="NameCity" list="City"></fieldcbx-form>
+            <fieldtxt-form name="Marca" maxlength="50" ng-model="ItemUserAgency.Marca" required="true" view="viewMode"></fieldtxt-form>
+            <fieldcbx-form name="BankID" ng-model="ItemUserAgency.BankID" required="true" view="viewMode" value="BankID" text="Name" list="Bank"></fieldcbx-form>
+            <fieldcbx-form name="TypeAccountBankID" ng-model="ItemUserAgency.TypeAccountBankID" required="true" view="viewMode" value="TypeAccountBankID" text="Name" list="TypeAccountBank"></fieldcbx-form>
+            <fieldtxt-form name="AccountNumber" maxlength="50" ng-model="ItemUserAgency.AccountNumber" required="true" view="viewMode"></fieldtxt-form>
+            <fieldcbx-form name="CityAccountID" ng-model="ItemUserAgency.CityAccountID" required="true" view="viewMode" value="CityID" text="NameCity" list="City"></fieldcbx-form>
+          </div>
+
+          <fieldyesno-form name="DeclaresRent" ng-model="ItemUser.DeclaresRent" view="viewMode"></fieldyesno-form>
+          <fieldcbx-form name="RegimenID" ng-model="ItemUser.RegimenID" required="true" view="viewMode" value="RegimenID" text="Name" list="Regimen"></fieldcbx-form>
+
+          <div class="text-center">
+            <button type="button" class="btn btn-default" ng-click="CompleteInfo(0)" translate="btnVolver"></button>
+            <button type="button" class="btn btn-primary" ng-disabled="frmUser.$invalid" ng-click="ActualizarDatosUsuario()" translate="btnGuardarSiguiente"></button>
+          </div>
+        </form>
+      </div>
+
+      <div role="tabpanel" class="tab-pane fade" id="info" ng-class="TabUser == 1 ? 'in active' : ''">
+        <my-help-text helptext="HelpInfo"></my-help-text>
+
+        <div ng-if="Url.TypeUser == 2">
+          <form class="form-horizontal" role="form" name="frmUserLegal" id="frmUserLegal">
+            <fieldyesno-form name="GreatContributor" ng-model="ItemUserLegal.GreatContributor"></fieldyesno-form>
+            <fieldyesno-form name="IsAuthoretening" ng-model="ItemUserLegal.IsAuthoretening"></fieldyesno-form>
+
+            <fieldset>
+              <legend translate="textRepresentante"></legend>
+              <fieldcbx-form name="TypeIdentificationID" ng-model="ItemUserLegal.TypeIdentificationID" required="true" view="viewMode" value="TypeIdentificationID" text="Name" list="TypeIdentification"></fieldcbx-form>
+              <fieldtxt-form name="Identification" maxlength="15" ng-model="ItemUserLegal.Identification" required="true" view="viewMode"></fieldtxt-form>
+              <fieldtxt-form name="FirstName" maxlength="80" ng-model="ItemUserLegal.FirstName" required="true" view="viewMode"></fieldtxt-form>
+              <fieldtxt-form name="LastName" maxlength="80" ng-model="ItemUserLegal.LastName" required="true" view="viewMode"></fieldtxt-form>
+              <fieldtxt-form name="Email" maxlength="100" ng-model="ItemUserLegal.Email" required="true" view="viewMode"></fieldtxt-form>
+              <fieldtxt-form name="CellPhone" maxlength="10" ng-model="ItemUserLegal.CellPhone" required="true" view="viewMode"></fieldtxt-form>
+            </fieldset>
+
+            <div class="text-center">
+              <button type="button" class="btn btn-default" ng-click="CompleteInfo(4)" translate="btnVolver"></button>
+              <button type="button" class="btn btn-primary" ng-disabled="frmUserLegal.$invalid" ng-click="RegisterUserLegal()" translate="btnGuardarCargar"></button>
+            </div>
+          </form>
+        </div>
+
+        <div ng-if="Url.TypeUser == 1">
+          <form class="form-horizontal" role="form" name="frmUserNatural" id="frmUserNatural">
+            <fieldcbx-form name="GenderID" ng-model="ItemUserNatural.GenderID" required="true" value="GenderID" text="Name" list="Gender"></fieldcbx-form>
+            <fieldcbx-form name="CivilStatusID" ng-model="ItemUserNatural.CivilStatusID" required="true" value="CivilStatusID" text="Name" list="CivilStatus"></fieldcbx-form>
+            <fieldtxt-form name="Birthdate" type="date" ng-model="ItemUserNatural.Birthdate"></fieldtxt-form>
+            <fieldtxt-form name="Phone" ng-model="ItemUserNatural.Phone" required="true"></fieldtxt-form>
+            <fieldtxt-form name="CellPhoneOne" ng-model="ItemUserNatural.CellPhoneOne" required="true"></fieldtxt-form>
+            <fieldtxt-form name="CellPhoneTwo" ng-model="ItemUserNatural.CellPhoneTwo"></fieldtxt-form>
+            <fieldtxt-form name="EmailCompany" ng-model="ItemUserNatural.EmailCompany"></fieldtxt-form>
+            <fieldcbx-form name="ARLID" ng-model="ItemUserNatural.ARLID" required="true" value="ARLID" text="Name" list="ARL"></fieldcbx-form>
+            <fieldcbx-form name="EPSID" ng-model="ItemUserNatural.EPSID" required="true" value="EPSID" text="Name" list="EPS"></fieldcbx-form>
+            <fieldcbx-form name="PensionID" ng-model="ItemUserNatural.PensionID" required="true" value="PensionID" text="Name" list="Pension"></fieldcbx-form>
+            <!--<fieldcbx-form name="ConcesionarioID" ng-model="ItemUserNatural.ConcesionarioID"  value="UserID" text="FirstName" list="User"></fieldcbx-form>-->
+            <fieldtxt-form name="tmp_NameConcesionario" ng-model="ItemUserNatural.tmp_NameConcesionario" value="tmp_NameConcesionario" text="tmp_NameConcesionario" list="User"></fieldtxt-form>
+            <fieldtxt-form name="NameVitrina" ng-model="ItemUserNatural.NameVitrina"  value="NameVitrina" text="NameVitrina" list="User"></fieldtxt-form>
+            <fieldyesno-form name="DecreaseRetention" ng-model="ItemUserNatural.DecreaseRetention"></fieldyesno-form>
+            <fieldyesno-form name="IsPensioner" ng-model="ItemUserNatural.IsPensioner"></fieldyesno-form>
+            <div class="text-center">
+              <button type="button" class="btn btn-default" ng-click="CompleteInfo(4)" translate="btnVolver"></button>
+              <button type="button" class="btn btn-primary" ng-disabled="frmUserNatural.$invalid" ng-click="RegisterUserNatural()" translate="btnGuardarCargar"></button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div role="tabpanel" class="tab-pane fade" id="file" ng-class="TabUser == 2 ? 'in active' : ''">
+        <my-help-text helptext="HelpArchivos"></my-help-text>
+
+        <form class="form-horizontal" role="form" name="frmFiles" id="frmFiles">
+          <ul class="list-group" ng-if="TabUser == 2">
+            <li class="list-group-item" ng-repeat="Item in UserFile" ng-if="SolicitarDocumento(Item)">
+              <strong>{{Item.Name}}</strong>
+              <fieldfile-form ng-model="Item.Archivo" required="true" ng-if="FileLoad(Item.UserFileID)"></fieldfile-form>
+              <p ng-bind-html="Item.TextHelp"></p>
+
+              <div ng-if="UserFileXUser.length > 0">
+                <ul class="list-group">
+                  <li class="list-group-item" ng-repeat="ItemUserFile in UserFileXUser | filter: {UserFileID: Item.UserFileID}">
+                    <strong>{{ItemUserFile.NameUserFile}}</strong>
+                    <a ng-click="viewMessage(ItemUserFile.Message)" class="click" ng-if="!ItemUserFile.Valid"><i class="fa fa-eye"></i></a>
+                    <my-state state="ItemUserFile.Valid" class="pull-right"></my-state>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+
+          <div class="text-center">
+            <button type="button" class="btn btn-success" ng-disabled="frmFiles.$invalid" ng-click="SubirArchivo()" translate="btnCargar"></button>
+          </div>
+        </form>
+      </div>
+
+      <div ng-show="Url.TypeUser == 1" role="tabpanel" class="tab-pane fade" id="Contrato" ng-class="TabUser == 3 ? 'in active' : ''">
+        <my-help-text helptext="HelpContrato"></my-help-text>
+
+        <form class="form-horizontal" role="form" name="frmContrato" id="frmContrato">
+          <button type="button" class="btn btn-default" ng-click="generarContrato(1)"><i class="fa fa-print"></i> Generar contrato de corretaje</button>
+          <br />
+          <hr />
+
+          <div class="form-group">
+            <fieldfile-form ng-model="Archivo" required="true"></fieldfile-form>
+          </div>
+
+          <div class="text-center">
+            <button type="button" class="btn btn-success" ng-disabled="frmContrato.$invalid" ng-click="SubirContratoCorretaje()" translate="btnCargarFinalizar"></button>
+          </div>
+        </form>
+      </div>
+
+      <div role="tabpanel" class="tab-pane fade" id="finallly" ng-class="TabUser == 5 ? 'in active' : ''">
+        <my-help-text helptext="HelpFinally"></my-help-text>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style type="text/css">
+  .board .nav-tabs {
+    position: relative;
+  }
+
+  .board > div.board-inner {
+    background: #fafafa;
+    background-size: 30%;
+  }
+
+  .liner {
+    height: 2px;
+    background: #ddd;
+    position: absolute;
+    width: 80%;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    top: 50%;
+    z-index: 1;
+  }
+
+  .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+    color: #555555;
+    cursor: default;
+    /* background-color: #ffffff; */
+    border: 0;
+    border-bottom-color: transparent;
+  }
+
+  span.round-tabs {
+    width: 75px;
+    height: 75px;
+    line-height: 85px;
+    display: inline-block;
+    border-radius: 100px;
+    background: white;
+    z-index: 2;
+    position: absolute;
+    left: 0;
+    text-align: center;
+    font-size: 25px;
+  }
+
+    span.round-tabs.one {
+      color: rgb(34, 194, 34);
+      border: 2px solid rgb(34, 194, 34);
+    }
+
+  li.active span.round-tabs.one {
+    background: #fff !important;
+    border: 2px solid #ddd;
+    color: rgb(34, 194, 34);
+  }
+
+  span.round-tabs.two {
+    color: #febe29;
+    border: 2px solid #febe29;
+  }
+
+  li.active span.round-tabs.two {
+    background: #fff !important;
+    border: 2px solid #ddd;
+    color: #febe29;
+  }
+
+  span.round-tabs.three {
+    color: #3e5e9a;
+    border: 2px solid #3e5e9a;
+  }
+
+  li.active span.round-tabs.three {
+    background: #fff !important;
+    border: 2px solid #ddd;
+    color: #3e5e9a;
+  }
+
+  span.round-tabs.four {
+    color: #f1685e;
+    border: 2px solid #f1685e;
+  }
+
+  li.active span.round-tabs.four {
+    background: #fff !important;
+    border: 2px solid #ddd;
+    color: #f1685e;
+  }
+
+  span.round-tabs.five {
+    color: #999;
+    border: 2px solid #999;
+  }
+
+  li.active span.round-tabs.five {
+    background: #fff !important;
+    border: 2px solid #ddd;
+    color: #999;
+  }
+
+  .nav-tabs > li.active > a span.round-tabs {
+    background: #fafafa;
+  }
+
+  .nav-tabs > li {
+    width: 16.5%;
+  }
+
+    .nav-tabs > li:after {
+      content: " ";
+      position: absolute;
+      left: 45%;
+      opacity: 0;
+      margin: 0 auto;
+      bottom: 0px;
+      border: 5px solid transparent;
+      border-bottom-color: #ddd;
+      transition: 0.1s ease-in-out;
+    }
+
+    .nav-tabs > li.active:after {
+      content: " ";
+      position: absolute;
+      left: 40%;
+      opacity: 1;
+      margin: 0 auto;
+      bottom: 0px;
+      border: 12px solid transparent;
+      border-bottom-color: #ddd;
+    }
+
+    .nav-tabs > li a {
+      width: 70px;
+      height: 70px;
+      margin: 20px auto;
+      border-radius: 100%;
+      padding: 0;
+    }
+
+      .nav-tabs > li a:hover {
+        background: transparent;
+      }
+
+  .tab-pane {
+    position: relative;
+    padding-top: 20px;
+  }
+
+  .tab-content .head {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 25px;
+    text-transform: uppercase;
+    padding-bottom: 10px;
+  }
+
+  .btn-outline-rounded {
+    padding: 10px 40px;
+    margin: 20px 0;
+    border: 2px solid transparent;
+    border-radius: 25px;
+  }
+
+  .btn.green {
+    background-color: #5cb85c;
+    /*border: 2px solid #5cb85c;*/
+    color: #ffffff;
+  }
+
+
+
+  @media( max-width : 585px ) {
+
+    .board {
+      width: 90%;
+      height: auto !important;
+    }
+
+    span.round-tabs {
+      font-size: 16px;
+      width: 50px;
+      height: 50px;
+      line-height: 55px;
+    }
+
+    .tab-content .head {
+      font-size: 20px;
+    }
+
+    .nav-tabs > li a {
+      width: 50px;
+      height: 50px;
+      line-height: 50px;
+    }
+
+    .nav-tabs > li.active:after {
+      content: " ";
+      position: absolute;
+      left: 35%;
+    }
+
+    .btn-outline-rounded {
+      padding: 12px 20px;
+    }
+  }
+</style>

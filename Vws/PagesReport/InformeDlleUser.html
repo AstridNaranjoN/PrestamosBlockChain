@@ -1,0 +1,138 @@
+﻿<div class="{{cssForm}}">
+  <title-pag title="titleInformeDlleUser"></title-pag>
+  <div class="col-sm-12">
+    <div class="col-sm-4">
+      <div class="row">
+        <div class="text-left Subrayado">MI RESUMEN</div>
+      </div>
+      <div class="row ">
+        <span>Operaciones realizadas este mes </span><span class="badge pull-right">{{ Totales.Total }}</span>
+      </div>
+      <div class="row ">
+        <span>Valor de las comisiones pagadas a hoy </span><span class="badge pull-right">{{ Totales.Comision | currency:"$ ":0 }}</span>
+      </div>
+      <div class="row ">
+        <span>Valor de las comisiones abonadas en tu cuenta</span><span class="badge pull-right">{{ Totales.AbonoCuenta | currency:"$ ":0 }}</span>
+      </div>
+    </div>
+
+    <div class="col-sm-3 col-xs-offset-1 pull-right">
+      <div class="row text-left">
+        <h6>Hola <span class="Subrayado">{{ DatosUsuario.Nombres }} {{ DatosUsuario.Apellidos }}</span></h6>
+        <h6>{{ DatosUsuario.TipoIdentificacion }}: {{ DatosUsuario.Identificacion }}</h6>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-offset-4 col-sm-4 col-xs-offset-0 col-xs-12">
+      <date-filter ng-model="date" method="filterDate()"></date-filter>
+    </div>
+  </div>
+  <!-- Button trigger modal -->
+  <div class="col-sm-12">
+    <div class="col-sm-3">
+      <span class="label" ng-class="getCssClass(1)">$ Provicionado</span>
+    </div>
+    <div class="col-sm-3">
+      <span class="label" ng-class="getCssClass(2)">$ Pagado</span>
+    </div>
+    <div class="col-sm-6">
+      <button ng-if="DatosUsuario.TypeUserID == 1" type="button" class="btn btn-primary pull-right" ng-click="OpenPlanillas()">Planillas SS</button>
+    </div>
+  </div>
+  <div class="col-sm-12" ng-hide="Datos.length == 0">
+    <div class="table-responsive">
+      <table class="{{cssTable
+}}">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Número de préstamo</th>
+            <th>Entidad Pagadora (Financiera)</th>
+            <th ng-if="DatosUsuario.TypeUserID == 1">Nombre del concesionario</th>
+            <th>Agencia</th>
+            <th>Ciudad</th>
+            <th>Porcentaje de la comisión</th>
+            <th>Valor de la comisión</th>
+            <th>Valor del incentivo</th>
+            <th>Visado</th>
+            <th ng-if="DatosUsuario.TypeUserID == 2">IVA</th>
+            <th>Retención en la fuente</th>
+            <th ng-if="DatosUsuario.TypeUserID == 1">Seguridad Social</th>
+            <th>Abono en cuenta</th>
+            <th ng-if="DatosUsuario.TypeUserID == 2">Reducción en la tasa</th>
+            <th ng-if="DatosUsuario.TypeUserID == 2">Plan</th>
+            <th>Nombre Cliente</th>
+            <th>Nombre Asesor</th>
+            <th>Celular Asesor</th>
+            <th>Email Asesor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-ng-repeat="Item in Datos">
+            <td>{{ Item.Fecha | date:'yyyy-MM-dd' }}</td>
+            <td>{{ Item.NroPrestamo }}</td>
+            <td>{{ Item.Entidad }}</td>
+            <td ng-if="DatosUsuario.TypeUserID == 1">{{ Item.Concesionario }}</td>
+            <td>{{ Item.Agencia }}</td>
+            <td>{{ Item.CiudadAgencia }}</td>
+            <td>{{ Item.PorcentajeComision | number:2 }}</td>
+            <td>{{ Item.ComisionCredito | currency:"$":0 }}</td>
+            <td>{{ Item.Incentivo | currency:"$":0 }}</td>
+            <td class="text-center"><my-state state="Item.Visado"></my-state></td>
+            <td class="text-center" ng-if="DatosUsuario.TypeUserID == 2"><span class="label" style="font-size:12px" ng-class="getCssClass(Item.EstadoIVA)">{{ Item.ValorIVA | currency:"$":0 }}</span></td>
+            <td class="text-center"><span class="label" style="font-size:12px" ng-class="getCssClass(Item.EstadoRetencion)">{{ Item.ValorRetencion | currency:"$":0 }}</span></td>
+            <td class="text-center" ng-if="DatosUsuario.TypeUserID == 1"><span class="label" style="font-size:12px" ng-class="getCssClass(Item.EstadoSeguridadSocial)">{{ Item.ValorSeguridadSocial | currency:"$":0 }}</span></td>
+            <td class="text-center"><span class="label" style="font-size:12px" ng-class="getCssClass(Item.EstadoPagado)">{{ Item.ValorPagado | currency:"$":0 }}</span></td>
+            <td ng-if="DatosUsuario.TypeUserID == 2">{{ Item.ReduccionTasa }}</td>
+            <td ng-if="DatosUsuario.TypeUserID == 2">{{ Item.Plan }}</td>
+            <td>{{ Item.NombreCliente }}</td>
+            <td>{{ Item.NombreAsesor }}</td>
+            <td>{{ Item.CelularAsesor }}</td>
+            <td>{{ Item.EmailAsesor }}</td>
+          </tr>
+
+          <tr ng-if="MostrarTotal">
+            <td></td>
+            <td><b>Total</b></td>
+            <td></td>
+            <td ng-if="DatosUsuario.TypeUserID == 1"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><b>{{ Totales.Comision | currency:"$":0 }}</b></td>
+            <td><b>{{ Totales.Incentivo | currency:"$":0 }}</b></td>
+            <td></td>
+            <td ng-if="DatosUsuario.TypeUserID == 2"><b>{{ Totales.IVA | currency:"$":0 }}</b></td>
+            <td><b>{{ Totales.Retencion | currency:"$":0 }}</b></td>
+            <td ng-if="DatosUsuario.TypeUserID == 1"><b>{{ Totales.SeguridadSocial | currency:"$":0 }}</b></td>
+            <td><b>{{ Totales.AbonoCuenta | currency:"$":0 }}</b></td>
+            <td ng-if="DatosUsuario.TypeUserID == 2"></td>
+            <td ng-if="DatosUsuario.TypeUserID == 2"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<!--<div ng-if="$scope.DatosUsuario.TypeUser == 1" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Consultar planillas</h4>
+      </div>
+      <div class="modal-body">
+        <iframe src="https://www.miplanillahoy.com/es/planillas/" frameborder="0" width="100%" height="300px”></iframe>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>-->

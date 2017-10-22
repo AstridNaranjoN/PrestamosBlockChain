@@ -1,0 +1,54 @@
+﻿<div class="{{cssForm}}">
+  <title-pag title="titleInformeDlle"></title-pag>
+
+  <div class="form-group" ng-if="Url.TypeUser == 2">
+    <label for="cbxConcesionarioID" class="col-sm-3 control-label" translate="cbxConcesionarioID"></label>
+    <div class="col-sm-9">
+      <select id="cbxConcesionarioID" name="cbxConcesionarioID" data-ng-model="User.ConcecionarioID" class="form-control" ng-change="uploadCbx()" ng-options="item.UserID as item.FirstName for item in User" required>
+        <option value="" translate="SelectItem"></option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group" ng-if="Url.TypeUser == 1">
+    <label for="cbxUserID" class="col-sm-3 control-label" translate="cbxUserID"></label>
+    <div class="col-sm-9">
+      <select id="cbxUserID" name="cbxUserID" data-ng-model="User.UserID" class="form-control" ng-change="uploadCbx()" ng-options="item.UserID as item.NameComplete for item in User" required>
+        <option value="" translate="SelectItem"></option>
+      </select>
+    </div>
+  </div>
+
+  <div class="col-sm-12" ng-hide="Datos.length == 0">
+    <div class="table-responsive">
+      <table class="{{cssTable}}">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Nro. Registro</th>
+            <th>Agencia</th>
+            <th>Entidad Pagadora (Financiera)</th>
+            <th>Valor total comisión</th>
+            <th>Visado</th>
+            <th ng-if="Url.TypeUser == 2">IVA</th>
+            <th>Retención en la fuente</th>
+            <th>Abono en cuenta</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-ng-repeat="Item in Datos">
+            <td>{{ Item.Fecha }}</td>
+            <td>{{ Item.Agency }}</td>
+            <td>{{ Item.NroRegistro }}</td>
+            <td>{{ Item.Entidad }}</td>
+            <td>{{ Item.Comision | currency:"$":0 }}</td>
+            <td class="text-center"><my-state state="Item.Visado"></my-state></td>
+            <td class="text-center" ng-if="Url.TypeUser == 2"><my-state state="Item.Iva"></my-state></td>
+            <td class="text-center"><my-state state="Item.Retencion"></my-state></td>
+            <td class="text-center"><my-state state="Item.AbonoCuenta"></my-state></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

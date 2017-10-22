@@ -1,0 +1,195 @@
+﻿<div class="main main-login main-center" ng-init="Views = 1">
+
+
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="text-center">
+        <h3 ng-show="Views == 1" translate="btnInicarSesion"></h3>
+        <h3 ng-show="Views == 0" translate="btnRecuperar"></h3>
+        <h3 ng-show="Views == 2 || Views == 3" translate="btnRegistrarse"></h3>
+        <b><i class="fa fa-user fa" aria-hidden="true"></i> Persona Natural</b>
+      </div>
+      <hr />
+      <div ng-if="Views == 0">
+        <div class="pass-reset">
+          <form id="frmReset" name="frmReset" class="form-horizontal">
+            <my-help-text helptext="HelpFinally" align="center"></my-help-text>
+
+            <div ng-if="ItemReset.TipoUser == 2">
+              <fieldtxt-form name="userNameNit" ng-model="ItemReset.Nit" required="true" label="false" inputgroup="true" icongroup="fa fa-building fa-lg"></fieldtxt-form>
+            </div>
+
+            <fieldtxt-form name="Identification" ng-model="ItemReset.Identificacion" required="true" label="false" inputgroup="true" icongroup="fa fa-user fa-lg"></fieldtxt-form>
+            
+            <div class="row">
+              <div class="col-md-3 col-md-offset-2">
+                <div id="Remember_Captcha"></div>
+              </div>
+            </div>
+
+            <div class="text-center">
+              <button type="button" class="btn btn-default" ng-click="ViewConfig(1)" translate="btnVolver"></button>
+              <button type="button" class="btn btn-success" ng-disabled="frmReset.$invalid" translate="btnRecuperar" ng-click="RecordarPss()"></button>
+            </div>
+
+            
+
+          </form>
+        </div>
+      </div>
+
+      <div ng-if="Views == 1">
+        <form id="frmLogin" name="frmLogin" class="login form-horizontal">
+          <div ng-if="ItemUser.TypeUserID == 2">
+            <fieldtxt-form name="userNameNit" ng-model="loginData.userNameNit" required="true" label="false" inputgroup="true" icongroup="fa fa-building fa-lg"></fieldtxt-form>
+          </div>
+
+          <fieldtxt-form name="Identification" ng-model="loginData.userNameCC" required="true" label="false" inputgroup="true" icongroup="fa fa-user fa-lg"></fieldtxt-form>
+          <fieldtxt-form name="Password" type="password" ng-model="loginData.password" required="true" ng-keypress="$event.keyCode === 13 && Login()" label="false" inputgroup="true" icongroup="fa fa-lock fa-lg"></fieldtxt-form>
+
+          <div class="row ">
+            <div class="col-md-6">
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" />
+                  <b translate="textRecurdar"></b>
+                </label>
+              </div>
+            </div>
+            <div class="col-md-6 text-right">
+              <a href="javascript:void(0)" class="forgot-pass" ng-click="ViewConfig(0)" translate="textOlvidarPss"></a>
+            </div>
+          </div>
+
+          <div class="form-control text-center">
+            <button type="button" class="btn btn-success" ng-disabled="frmLogin.$invalid" ng-click="Login()" translate="btnInicarSesion"></button>
+            <button type="button" class="btn btn-warning" ng-click="ViewConfig(2)" translate="btnRegistrarse"></button>
+          </div>
+        </form>
+      </div>
+
+      <div class="wrap" ng-if="Views >= 2">
+        <form class="form-horizontal login" ng-if="Views == 2" role="form" name="frmUser" id="frmUser">
+          <!-- Select Basic -->
+          <div class="form-group">
+            <div class="col-md-3 col-xs-3">
+              <fieldcbx-form name="TypeIdentificationID" ng-model="ItemUser.TypeIdentificationID" optiondefault="false" required="true" label="false" value="TypeIdentificationID" text="Code" list="TypeIdentification"></fieldcbx-form>
+            </div>
+            <div class="" ng-class="(ItemUser.TypeUserID == 2)?'col-md-6 col-xs-6':'col-md-9 col-xs-9'">
+              <input ng-change="ValidarDigitoNIT()" ng-model="ItemUser.Identification" type="text"
+                     class="form-control ng-not-empty ng-dirty ng-valid-parse ng-valid ng-valid-required ng-touched"
+                     placeholder="Ingresa el número de identificación" required>
+            </div>
+            <div class="col-md-3 col-xs-3" ng-if="ItemUser.TypeUserID == 2">
+              <input id="txtVerificationDigit" ng-model="ItemUser.VerificationDigit" alt="Dígito de verificación"
+                     class="form-control ng-pristine ng-empty ng-invalid ng-invalid-required ng-touched"
+                     placeholder="Díg." required disabled>
+            </div>
+          </div>
+
+          <div ng-if="ItemUser.TypeUserID == 2">
+            <fieldtxt-form name="NameBusiness" ng-model="ItemUser.FirstName" required="true"></fieldtxt-form>
+          </div>
+
+          <div ng-if="ItemUser.TypeUserID == 1">
+            <fieldtxt-form name="FirstName" ng-model="ItemUser.FirstName" required="true"></fieldtxt-form>
+            <fieldtxt-form name="LastName" ng-model="ItemUser.UserNatural.LastName" required="true"></fieldtxt-form>
+
+            <fieldtxt-form name="Email" ng-model="ItemUser.Email" required="true"></fieldtxt-form>
+
+            <fieldtxt-form name="Password" type="password" ng-model="ItemUser.Password" required="true" label="false" inputgroup="true" icongroup="fa fa-lock fa-lg"></fieldtxt-form>
+            <fieldtxt-form name="PasswordConfirm" type="password" ng-model="ItemUser.PasswordConfirm" required="true" label="false" inputgroup="true" icongroup="fa fa-lock fa-lg"></fieldtxt-form>
+          </div>
+
+          <div ng-if="ItemUser.TypeUserID == 2">
+            <fieldtxt-form name="NameAgency" maxlength="100" ng-model="ItemUser.ItemUserAgency.Name" required="true" view="viewMode"></fieldtxt-form>
+
+            <fieldset>
+              <legend translate="infoUser"></legend>
+              <!-- Select Basic -->
+              <div class="form-group">
+                <div class="col-md-3 col-xs-3">
+                  <fieldcbx-form name="TypeIdentificationID" ng-model="ItemUser.ItemUserAgencyAdmon.TypeIdentificationID" optiondefault="false" required="true" label="false" value="TypeIdentificationID" text="Code" list="TypeIdentificationPN"></fieldcbx-form>
+                </div>
+
+                <div class="col-md-9 col-xs-9">
+                  <fieldtxt-form name="Identification" maxlength="15" ng-model="ItemUser.ItemUserAgencyAdmon.Identification" required="true" label="false"></fieldtxt-form>
+                </div>
+              </div>
+
+              <fieldtxt-form name="FirstName" maxlength="80" ng-model="ItemUser.ItemUserAgencyAdmon.FirstName" required="true" view="viewMode"></fieldtxt-form>
+              <fieldtxt-form name="LastName" maxlength="80" ng-model="ItemUser.ItemUserAgencyAdmon.LastName" required="true" view="viewMode"></fieldtxt-form>
+              <fieldtxt-form name="Email" maxlength="100" ng-model="ItemUser.ItemUserAgencyAdmon.Email" required="true" view="viewMode"></fieldtxt-form>
+
+              <fieldtxt-form name="Phone" ng-model="ItemUser.ItemUserAgencyAdmon.Phone" required="true"></fieldtxt-form>
+              <fieldtxt-form name="CellPhone" maxlength="10" ng-model="ItemUser.ItemUserAgencyAdmon.CellPhone" required="false" view="viewMode"></fieldtxt-form>
+
+              <fieldtxt-form name="Password" type="password" maxlength="50" ng-model="ItemUser.ItemUserAgencyAdmon.Password" required="true" label="false" inputgroup="true" icongroup="fa fa-lock fa-lg"></fieldtxt-form>
+              <fieldtxt-form name="PasswordConfirm" type="password" maxlength="50" ng-model="ItemUser.ItemUserAgencyAdmon.PasswordConfirm" required="true" label="false" inputgroup="true" icongroup="fa fa-lock fa-lg"></fieldtxt-form>
+            </fieldset>
+          </div>
+
+          <div class="row">
+            <div class="col-md-3 col-md-offset-2">
+              <div id="Register_Captcha" ></div>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <div class="checkbox">
+              <label>
+                <input ng-model="ItemUser.AcceptTerms" type="checkbox" required />
+              </label>
+              <b>Al registrarme acepto todos los <a class='click terminos'>Términos y Condiciones</a> y las <a class='click politicas'>Políticas de Privacidad</a></b>
+            </div>
+          </div>
+
+          <div class="text-center">
+            <button type="button" class="btn btn-default" ng-click="ViewConfig(1)" translate="btnVolver"></button>
+            <button type="button" class="btn btn-warning" ng-click="Register()" ng-disabled="frmUser.$invalid" translate="btnRegistrarse"></button>
+          </div>
+        </form>
+
+        <div ng-if="Views == 3">
+          <my-help-text helptext="HelpFinally" align="center"></my-help-text>
+         
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style type="text/css">
+  body, html {
+    
+  }
+</style>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    $('.forgot-pass').click(function (event) {
+      $(".pr-wrap").toggleClass("show-pass-reset");
+    });
+
+    $('.pass-reset-submit').click(function (event) {
+      $(".pr-wrap").removeClass("show-pass-reset");
+    });
+
+  });
+
+
+  function OpenInfo(page_ID) {
+    var server = "http://www.fisapay.com/"
+    var page = "";
+    if (page_ID == 1) {
+      page = "TyC.html"
+    } else {
+      page = "PP.html"
+    }
+    window.open(server + page);
+  }
+</script>
+
+<!--Google reCAPTCHA -->
+<script src='https://www.google.com/recaptcha/api.js?' async defer></script>
