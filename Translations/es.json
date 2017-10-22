@@ -1,6 +1,6 @@
 {
-  "App": "Fisa Pay",
-  "NombreApp": "Fisa <span class='label label-warning text-capitalize'>pay</span>",
+  "App": "Prestamos BlockChain",
+  "NombreApp": "Prestamos <span class='label label-warning text-capitalize'>BlockChain</span>",
   "BUTTON_LANG_EN": "Ingles",
   "BUTTON_LANG_ES": "Español",
 
@@ -79,7 +79,7 @@
   "IdentificacionDuplicada": "La identificación ingresada ya existe en el sistema",
   "RegistroYaExiste": "Ya existe un registro en el sistema con la misma información",
   "CargueDuplicado": "Ya existe un cargue enviado para la misma fecha",
-  "Type1": "Persona Natural",
+  "Type1": "Prestamos BlockChain",
   "Type2": "Persona Jurídica",
   "SinDatos": "Sin Datos Para Mostrar",
   "textCargando": "Cargando...",
@@ -406,7 +406,7 @@
   "cdUserID": "Código Usuario",
   "cbxTypeIdentificationID": "Tipo de identificación",
   "txtIdentification": "Identificación",
-  "phdIdentification": "Ingresa el número de identificación",
+  "phdIdentification": "Ingresa el correo electrónico",
   "txtAddress": "Dirección",
   "phdAddress": "Ingresar la dirección",
   "cbxCityID": "Ciudad",

@@ -104,7 +104,8 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'apiServiceSet
 
     var _fillAuthData = function () {
 
-      var authData = localStorageService.get('authorizationData');
+      // var authData = localStorageService.get('authorizationData');
+      var authData = { userName: "anaranjon@gmail.com", codeUser: "anaranjon", NameUser: "Astrid Naranjo", userRole: 1, useRefreshTokens: false, User: { FisrtName: "Astrid" } };
       if (authData) {
         _authentication.isAuth = true;
         _authentication.userName = authData.userName;

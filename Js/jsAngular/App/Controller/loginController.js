@@ -65,11 +65,12 @@
 
         $scope.Login = function () {
             $scope.loginData.userName = $scope.loginData.userNameCC; 
-
-            authService.login($scope.loginData).then(function (data) {
-                if (data.data.approved.toLowerCase() === "true") { $rootScope.IsAuthenticated = true; $location.path('/Main'); }
-                else { $location.path('/SignIn'); }
-            });
+            $rootScope.IsAuthenticated = true;
+            $location.path('/Main');
+            // authService.login($scope.loginData).then(function (data) {
+            //     if (data.data.approved.toLowerCase() === "true") { $rootScope.IsAuthenticated = true; $location.path('/Main'); }
+            //     else { $location.path('/SignIn'); }
+            // });
         };
 
         $scope.RecordarPss = function () {
@@ -99,33 +100,7 @@
               });
         };
 
-        $scope.ValidarDigitoNIT = function () {
-            if ($scope.ItemUser.TypeUserID == 2) {
-                if ($scope.ItemUser.Identification.length == 9) {
-                    var Primos = [41, 37, 29, 23, 19, 17, 13, 7, 3];
-                    var suma = 0;
-                    for (var i = 0; i < $scope.ItemUser.Identification.length; i++) {
-                        var Digito = parseInt($scope.ItemUser.Identification[i])
-                        var primo = parseInt(Primos[i])
-                        suma += (Digito * primo);
-                    }
-                    var digit = 11 - (suma % 11);
-                    if (digit < 10) {
-                        $scope.ItemUser.VerificationDigit = digit.toString()[0];
-                    } else if (digit == 11) {
-                        $scope.ItemUser.VerificationDigit = 0;
-                    } else if (digit == 10) {
-                        $scope.ItemUser.VerificationDigit = digit.toString()[0];
-                    } else {
-                        $scope.ItemUser.VerificationDigit = 'E';
-                    }
-
-                } else {
-                    $scope.ItemUser.VerificationDigit = "";
-                }
-            }
-        }
-
+        
         $scope.Ingresar = function () {
             $scope.Login();
 
